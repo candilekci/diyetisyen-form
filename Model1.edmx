@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="YazilimMimarisiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tbl_Admin">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminAd" Type="varchar" MaxLength="20" />
+          <Property Name="AdminSifre" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Tbl_DIYETISYEN">
+          <Key>
+            <PropertyRef Name="DId" />
+          </Key>
+          <Property Name="DId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DAd" Type="varchar" MaxLength="20" />
+          <Property Name="DSoyad" Type="varchar" MaxLength="20" />
+          <Property Name="DTC" Type="char" MaxLength="11" />
+          <Property Name="DSifre" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Tbl_DIYETLER">
+          <Key>
+            <PropertyRef Name="DiyetId" />
+          </Key>
+          <Property Name="DiyetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DiyetAd" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Tbl_HASTA">
+          <Key>
+            <PropertyRef Name="HId" />
+          </Key>
+          <Property Name="HId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HAd" Type="varchar" MaxLength="20" />
+          <Property Name="HSoyad" Type="varchar" MaxLength="20" />
+          <Property Name="HTC" Type="char" MaxLength="11" />
+          <Property Name="HHastalik" Type="int" />
+          <Property Name="HDiyet" Type="int" />
+          <Property Name="HDiyetisyen" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_HASTALIK">
+          <Key>
+            <PropertyRef Name="HastalikId" />
+          </Key>
+          <Property Name="HastalikId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HastalikAd" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Tbl_PROGRAM">
+          <Key>
+            <PropertyRef Name="PId" />
+          </Key>
+          <Property Name="PId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PHasta" Type="int" />
+          <Property Name="Günler" Type="varchar" MaxLength="10" />
+          <Property Name="Sabah" Type="varchar" MaxLength="100" />
+          <Property Name="Ogle" Type="varchar" MaxLength="100" />
+          <Property Name="Aksam" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Tbl_HASTA_Tbl_DIYETISYEN">
+          <End Role="Tbl_DIYETISYEN" Type="Self.Tbl_DIYETISYEN" Multiplicity="0..1" />
+          <End Role="Tbl_HASTA" Type="Self.Tbl_HASTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_DIYETISYEN">
+              <PropertyRef Name="DId" />
+            </Principal>
+            <Dependent Role="Tbl_HASTA">
+              <PropertyRef Name="HDiyetisyen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_HASTA_Tbl_DIYETLER">
+          <End Role="Tbl_DIYETLER" Type="Self.Tbl_DIYETLER" Multiplicity="0..1" />
+          <End Role="Tbl_HASTA" Type="Self.Tbl_HASTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_DIYETLER">
+              <PropertyRef Name="DiyetId" />
+            </Principal>
+            <Dependent Role="Tbl_HASTA">
+              <PropertyRef Name="HDiyet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_HASTA_Tbl_HASTALIK">
+          <End Role="Tbl_HASTALIK" Type="Self.Tbl_HASTALIK" Multiplicity="0..1" />
+          <End Role="Tbl_HASTA" Type="Self.Tbl_HASTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_HASTALIK">
+              <PropertyRef Name="HastalikId" />
+            </Principal>
+            <Dependent Role="Tbl_HASTA">
+              <PropertyRef Name="HHastalik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_PROGRAM_Tbl_HASTA">
+          <End Role="Tbl_HASTA" Type="Self.Tbl_HASTA" Multiplicity="0..1" />
+          <End Role="Tbl_PROGRAM" Type="Self.Tbl_PROGRAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_HASTA">
+              <PropertyRef Name="HId" />
+            </Principal>
+            <Dependent Role="Tbl_PROGRAM">
+              <PropertyRef Name="PHasta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="YazilimMimarisiModelStoreContainer">
+          <EntitySet Name="Tbl_Admin" EntityType="Self.Tbl_Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_DIYETISYEN" EntityType="Self.Tbl_DIYETISYEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_DIYETLER" EntityType="Self.Tbl_DIYETLER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_HASTA" EntityType="Self.Tbl_HASTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_HASTALIK" EntityType="Self.Tbl_HASTALIK" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_PROGRAM" EntityType="Self.Tbl_PROGRAM" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Tbl_HASTA_Tbl_DIYETISYEN" Association="Self.FK_Tbl_HASTA_Tbl_DIYETISYEN">
+            <End Role="Tbl_DIYETISYEN" EntitySet="Tbl_DIYETISYEN" />
+            <End Role="Tbl_HASTA" EntitySet="Tbl_HASTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_HASTA_Tbl_DIYETLER" Association="Self.FK_Tbl_HASTA_Tbl_DIYETLER">
+            <End Role="Tbl_DIYETLER" EntitySet="Tbl_DIYETLER" />
+            <End Role="Tbl_HASTA" EntitySet="Tbl_HASTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_HASTA_Tbl_HASTALIK" Association="Self.FK_Tbl_HASTA_Tbl_HASTALIK">
+            <End Role="Tbl_HASTALIK" EntitySet="Tbl_HASTALIK" />
+            <End Role="Tbl_HASTA" EntitySet="Tbl_HASTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_PROGRAM_Tbl_HASTA" Association="Self.FK_Tbl_PROGRAM_Tbl_HASTA">
+            <End Role="Tbl_HASTA" EntitySet="Tbl_HASTA" />
+            <End Role="Tbl_PROGRAM" EntitySet="Tbl_PROGRAM" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="YazilimMimarisiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tbl_DIYETISYEN">
+          <Key>
+            <PropertyRef Name="DId" />
+          </Key>
+          <Property Name="DId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DAd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DSoyad" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DTC" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="DSifre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_HASTA" Relationship="Self.FK_Tbl_HASTA_Tbl_DIYETISYEN" FromRole="Tbl_DIYETISYEN" ToRole="Tbl_HASTA" />
+        </EntityType>
+        <EntityType Name="Tbl_DIYETLER">
+          <Key>
+            <PropertyRef Name="DiyetId" />
+          </Key>
+          <Property Name="DiyetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DiyetAd" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_HASTA" Relationship="Self.FK_Tbl_HASTA_Tbl_DIYETLER" FromRole="Tbl_DIYETLER" ToRole="Tbl_HASTA" />
+        </EntityType>
+        <EntityType Name="Tbl_HASTA">
+          <Key>
+            <PropertyRef Name="HId" />
+          </Key>
+          <Property Name="HId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HAd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HSoyad" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HTC" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="HHastalik" Type="Int32" />
+          <Property Name="HDiyet" Type="Int32" />
+          <Property Name="HDiyetisyen" Type="Int32" />
+          <NavigationProperty Name="Tbl_DIYETISYEN" Relationship="Self.FK_Tbl_HASTA_Tbl_DIYETISYEN" FromRole="Tbl_HASTA" ToRole="Tbl_DIYETISYEN" />
+          <NavigationProperty Name="Tbl_DIYETLER" Relationship="Self.FK_Tbl_HASTA_Tbl_DIYETLER" FromRole="Tbl_HASTA" ToRole="Tbl_DIYETLER" />
+          <NavigationProperty Name="Tbl_HASTALIK" Relationship="Self.FK_Tbl_HASTA_Tbl_HASTALIK" FromRole="Tbl_HASTA" ToRole="Tbl_HASTALIK" />
+          <NavigationProperty Name="Tbl_PROGRAM" Relationship="Self.FK_Tbl_PROGRAM_Tbl_HASTA" FromRole="Tbl_HASTA" ToRole="Tbl_PROGRAM" />
+        </EntityType>
+        <EntityType Name="Tbl_HASTALIK">
+          <Key>
+            <PropertyRef Name="HastalikId" />
+          </Key>
+          <Property Name="HastalikId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HastalikAd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_HASTA" Relationship="Self.FK_Tbl_HASTA_Tbl_HASTALIK" FromRole="Tbl_HASTALIK" ToRole="Tbl_HASTA" />
+        </EntityType>
+        <EntityType Name="Tbl_PROGRAM">
+          <Key>
+            <PropertyRef Name="PId" />
+          </Key>
+          <Property Name="PId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PHasta" Type="Int32" />
+          <Property Name="Günler" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Sabah" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Ogle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Aksam" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_HASTA" Relationship="Self.FK_Tbl_PROGRAM_Tbl_HASTA" FromRole="Tbl_PROGRAM" ToRole="Tbl_HASTA" />
+        </EntityType>
+        <Association Name="FK_Tbl_HASTA_Tbl_DIYETISYEN">
+          <End Role="Tbl_DIYETISYEN" Type="Self.Tbl_DIYETISYEN" Multiplicity="0..1" />
+          <End Role="Tbl_HASTA" Type="Self.Tbl_HASTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_DIYETISYEN">
+              <PropertyRef Name="DId" />
+            </Principal>
+            <Dependent Role="Tbl_HASTA">
+              <PropertyRef Name="HDiyetisyen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_HASTA_Tbl_DIYETLER">
+          <End Role="Tbl_DIYETLER" Type="Self.Tbl_DIYETLER" Multiplicity="0..1" />
+          <End Role="Tbl_HASTA" Type="Self.Tbl_HASTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_DIYETLER">
+              <PropertyRef Name="DiyetId" />
+            </Principal>
+            <Dependent Role="Tbl_HASTA">
+              <PropertyRef Name="HDiyet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_HASTA_Tbl_HASTALIK">
+          <End Role="Tbl_HASTALIK" Type="Self.Tbl_HASTALIK" Multiplicity="0..1" />
+          <End Role="Tbl_HASTA" Type="Self.Tbl_HASTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_HASTALIK">
+              <PropertyRef Name="HastalikId" />
+            </Principal>
+            <Dependent Role="Tbl_HASTA">
+              <PropertyRef Name="HHastalik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_PROGRAM_Tbl_HASTA">
+          <End Role="Tbl_HASTA" Type="Self.Tbl_HASTA" Multiplicity="0..1" />
+          <End Role="Tbl_PROGRAM" Type="Self.Tbl_PROGRAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_HASTA">
+              <PropertyRef Name="HId" />
+            </Principal>
+            <Dependent Role="Tbl_PROGRAM">
+              <PropertyRef Name="PHasta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="YazilimMimarisiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tbl_DIYETISYEN" EntityType="Self.Tbl_DIYETISYEN" />
+          <EntitySet Name="Tbl_DIYETLER" EntityType="Self.Tbl_DIYETLER" />
+          <EntitySet Name="Tbl_HASTA" EntityType="Self.Tbl_HASTA" />
+          <EntitySet Name="Tbl_HASTALIK" EntityType="Self.Tbl_HASTALIK" />
+          <EntitySet Name="Tbl_PROGRAM" EntityType="Self.Tbl_PROGRAM" />
+          <AssociationSet Name="FK_Tbl_HASTA_Tbl_DIYETISYEN" Association="Self.FK_Tbl_HASTA_Tbl_DIYETISYEN">
+            <End Role="Tbl_DIYETISYEN" EntitySet="Tbl_DIYETISYEN" />
+            <End Role="Tbl_HASTA" EntitySet="Tbl_HASTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_HASTA_Tbl_DIYETLER" Association="Self.FK_Tbl_HASTA_Tbl_DIYETLER">
+            <End Role="Tbl_DIYETLER" EntitySet="Tbl_DIYETLER" />
+            <End Role="Tbl_HASTA" EntitySet="Tbl_HASTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_HASTA_Tbl_HASTALIK" Association="Self.FK_Tbl_HASTA_Tbl_HASTALIK">
+            <End Role="Tbl_HASTALIK" EntitySet="Tbl_HASTALIK" />
+            <End Role="Tbl_HASTA" EntitySet="Tbl_HASTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_PROGRAM_Tbl_HASTA" Association="Self.FK_Tbl_PROGRAM_Tbl_HASTA">
+            <End Role="Tbl_HASTA" EntitySet="Tbl_HASTA" />
+            <End Role="Tbl_PROGRAM" EntitySet="Tbl_PROGRAM" />
+          </AssociationSet>
+          <EntitySet Name="Tbl_Admin" EntityType="YazilimMimarisiModel.Tbl_Admin" />
+        </EntityContainer>
+        <EntityType Name="Tbl_Admin">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminAd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AdminSifre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="YazilimMimarisiModelStoreContainer" CdmEntityContainer="YazilimMimarisiEntities">
+          <EntitySetMapping Name="Tbl_DIYETISYEN">
+            <EntityTypeMapping TypeName="YazilimMimarisiModel.Tbl_DIYETISYEN">
+              <MappingFragment StoreEntitySet="Tbl_DIYETISYEN">
+                <ScalarProperty Name="DId" ColumnName="DId" />
+                <ScalarProperty Name="DAd" ColumnName="DAd" />
+                <ScalarProperty Name="DSoyad" ColumnName="DSoyad" />
+                <ScalarProperty Name="DTC" ColumnName="DTC" />
+                <ScalarProperty Name="DSifre" ColumnName="DSifre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_DIYETLER">
+            <EntityTypeMapping TypeName="YazilimMimarisiModel.Tbl_DIYETLER">
+              <MappingFragment StoreEntitySet="Tbl_DIYETLER">
+                <ScalarProperty Name="DiyetId" ColumnName="DiyetId" />
+                <ScalarProperty Name="DiyetAd" ColumnName="DiyetAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_HASTA">
+            <EntityTypeMapping TypeName="YazilimMimarisiModel.Tbl_HASTA">
+              <MappingFragment StoreEntitySet="Tbl_HASTA">
+                <ScalarProperty Name="HId" ColumnName="HId" />
+                <ScalarProperty Name="HAd" ColumnName="HAd" />
+                <ScalarProperty Name="HSoyad" ColumnName="HSoyad" />
+                <ScalarProperty Name="HTC" ColumnName="HTC" />
+                <ScalarProperty Name="HHastalik" ColumnName="HHastalik" />
+                <ScalarProperty Name="HDiyet" ColumnName="HDiyet" />
+                <ScalarProperty Name="HDiyetisyen" ColumnName="HDiyetisyen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_HASTALIK">
+            <EntityTypeMapping TypeName="YazilimMimarisiModel.Tbl_HASTALIK">
+              <MappingFragment StoreEntitySet="Tbl_HASTALIK">
+                <ScalarProperty Name="HastalikId" ColumnName="HastalikId" />
+                <ScalarProperty Name="HastalikAd" ColumnName="HastalikAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_PROGRAM">
+            <EntityTypeMapping TypeName="YazilimMimarisiModel.Tbl_PROGRAM">
+              <MappingFragment StoreEntitySet="Tbl_PROGRAM">
+                <ScalarProperty Name="PId" ColumnName="PId" />
+                <ScalarProperty Name="PHasta" ColumnName="PHasta" />
+                <ScalarProperty Name="Günler" ColumnName="Günler" />
+                <ScalarProperty Name="Sabah" ColumnName="Sabah" />
+                <ScalarProperty Name="Ogle" ColumnName="Ogle" />
+                <ScalarProperty Name="Aksam" ColumnName="Aksam" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Admin">
+            <EntityTypeMapping TypeName="YazilimMimarisiModel.Tbl_Admin">
+              <MappingFragment StoreEntitySet="Tbl_Admin">
+                <ScalarProperty Name="AdminSifre" ColumnName="AdminSifre" />
+                <ScalarProperty Name="AdminAd" ColumnName="AdminAd" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
